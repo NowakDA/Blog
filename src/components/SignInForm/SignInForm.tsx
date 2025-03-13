@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
-
+import { Rule } from 'antd/es/form';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 import { setUser } from '../../store/userSlice';
@@ -35,8 +35,8 @@ const SignIn: FC = () => {
           name="email"
           label="Email address"
           rules={[
-            { required: true, message: 'Please enter your email' },
-            { type: 'email', message: 'Invalid email format' },
+            { required: true, message: 'Please enter your email' } as Rule,
+            { type: 'email', message: 'Invalid email format' } as Rule,
           ]}
         >
           <Input placeholder="Email address" />
@@ -45,7 +45,7 @@ const SignIn: FC = () => {
         <Form.Item
           name="password"
           label="Password"
-          rules={[{ required: true, message: 'Please enter your password' }]}
+          rules={[{ required: true, message: 'Please enter your password' } as Rule]}
         >
           <Input.Password
             placeholder="Password"
