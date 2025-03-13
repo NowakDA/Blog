@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { formatDate } from '../../utils/formatDate';
+import { formatDate } from '../../utils/formatDate.ts';
 import heartEmpty from '../../assets/heart-empty.svg';
 import heartRed from '../../assets/red-heart.svg';
 import { Article } from './ArticleTypes';
