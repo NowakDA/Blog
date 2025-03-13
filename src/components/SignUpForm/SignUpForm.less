@@ -1,0 +1,86 @@
+.signup-container {
+
+
+  box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 647px;
+    max-width: 384px;
+    margin: 59px auto;
+  }
+  
+  .signup-form {
+    max-height: 647px;
+    max-width: 384px;
+    background: @background-color-base;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    
+    h2 {
+      .h5;
+      font-family: @font-roboto;
+      font-weight: 500;
+      margin: 0;
+      padding-top: 18px;
+      padding-bottom: 21px;
+      font-size: 20px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid @border-color-base;
+      border-radius: 5px;
+      max-width: 320px;
+      max-height: 40px;
+    }
+
+    .ant-input-password{
+      width: 100%;
+      padding: 8px;
+      border: 1px solid @border-color-base;
+      border-radius: 5px;
+    }
+
+    
+    button {
+      padding: 19px;
+      background: @primary-color;
+      font-size: 16px;
+      
+    }
+    
+    .signin-text {
+      font-size: 14px;
+      color: @disabled-color;
+      
+      a {
+        color: @primary-color;
+        text-decoration: none;
+        
+      }
+    }
+    :where(.css-dev-only-do-not-override-240cud).ant-checkbox {
+      align-self: start;
+      margin-top: 4px;
+    }
+
+    :where(.css-dev-only-do-not-override-240cud).ant-checkbox+span {
+      padding-inline-start: 8px;
+      padding-inline-end: 8px;
+      text-align: start;
+  }
+
+  .ant-form-item:last-of-type{
+    margin-bottom: 8px;
+  }
+
+  button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }  
+  }
