@@ -96,7 +96,7 @@ const SignupForm: FC = () => {
           <Checkbox>I agree to the processing of my personal information</Checkbox>
         </Form.Item>
 
-        {error && <div className="sign-up-error">⛔️ {error.message || 'Signup failed'}</div>}
+        {error && <div className="sign-up-error">⛔️ 'Signup failed'</div>}
 
         <Form.Item>
           <Button type="primary" htmlType="submit" disabled={isLoading} block>
