@@ -14,7 +14,7 @@ import './SignInForm.less';
 const SignIn: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [signIn, { isLoading }] = useSignInMutation();
+  const [signIn, { isLoading, error }] = useSignInMutation();
 
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
@@ -52,7 +52,13 @@ const SignIn: FC = () => {
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
           />
         </Form.Item>
-        {/* {error && <div className="sign-in-error">⛔️ incorrect email or password</div>} */}
+        {error && (
+          <div className="sign-in-error">
+            {'data' in error && typeof error.data === 'string'
+              ? error.data
+              : 'Something went wrong, please try again.'}
+          </div>
+        )}
 
         <Form.Item>
           <Button className="login-btn" type="primary" htmlType="submit" block disabled={isLoading}>
