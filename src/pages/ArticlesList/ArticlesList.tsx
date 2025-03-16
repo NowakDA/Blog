@@ -49,7 +49,7 @@ const ArticlesList: FC = () => {
       console.error('Error updating favorite status:', error);
     }
   };
-  console.log(error);
+
   if (isLoading) return <Loading />;
   if (error) return <ErrorMessage />;
   if (!data) return null;

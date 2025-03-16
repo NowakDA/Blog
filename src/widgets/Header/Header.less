@@ -11,7 +11,7 @@
 
   :where(.css-dev-only-do-not-override-240cud).ant-btn {
     font-family: @font-family;
-    font-size: 18px;
+    font-size: 18px !important;
   }
   :where(.css-dev-only-do-not-override-240cud).ant-btn-color-default.ant-btn-variant-link:not(
       :disabled
@@ -37,8 +37,8 @@
   :where(.css-dev-only-do-not-override-240cud).ant-btn-variant-dashed:not(:disabled):not(
       .ant-btn-disabled
     ):hover {
-    color: darken(@success-color, 10%);
-    border-color: darken(@success-color, 10%);
+    color: darken(@success-color, 10%) !important;
+    border-color: darken(@success-color, 10%) !important;
     background: #ffffff;
   }
 }
@@ -57,8 +57,8 @@
     :where(.css-dev-only-do-not-override-240cud).ant-btn-variant-dashed:not(:disabled):not(
         .ant-btn-disabled
       ):hover {
-      color: darken(@success-color, 10%);
-      border-color: darken(@success-color, 10%);
+      color: darken(@success-color, 10%) !important;
+      border-color: darken(@success-color, 10%) !important;
     }
   }
 
