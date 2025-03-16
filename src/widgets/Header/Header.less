@@ -7,22 +7,22 @@
   color: @heading-color;
   &__text {
     .h6;
+    &:hover {
+      color: @heading-color;
+      background: transparent;
+    }
   }
 
   :where(.css-dev-only-do-not-override-240cud).ant-btn {
     font-family: @font-family;
   }
-  :where(.css-dev-only-do-not-override-240cud).ant-btn-color-default.ant-btn-variant-link:not(
-      :disabled
-    ):not(.ant-btn-disabled):hover {
-    color: @heading-color;
-    background: transparent;
-  }
+  
 }
 
 .btn {
   max-height: 109px;
   color: @heading-color;
+  font-size: 18px !important;
 }
 
 .btn-up {
@@ -33,6 +33,12 @@
     color: darken(@success-color, 10%) !important;
     border-color: darken(@success-color, 10%) !important;
     background: #ffffff;
+  }
+}
+
+.btn-in {
+  &:hover {
+    color: inherit;
   }
 }
 
