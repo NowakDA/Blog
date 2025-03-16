@@ -11,7 +11,6 @@
 
   :where(.css-dev-only-do-not-override-240cud).ant-btn {
     font-family: @font-family;
-    font-size: 18px !important;
   }
   :where(.css-dev-only-do-not-override-240cud).ant-btn-color-default.ant-btn-variant-link:not(
       :disabled
@@ -23,7 +22,6 @@
 
 .btn {
   max-height: 109px;
-
   color: @heading-color;
 }
 
@@ -31,12 +29,7 @@
   color: @success-color;
   border: 1px solid @success-color;
   padding: 20px 18px;
-  &:where(.css-dev-only-do-not-override-240cud).ant-btn-variant-outlined:not(:disabled):not(
-      .ant-btn-disabled
-    ):hover,
-  :where(.css-dev-only-do-not-override-240cud).ant-btn-variant-dashed:not(:disabled):not(
-      .ant-btn-disabled
-    ):hover {
+  &:hover {
     color: darken(@success-color, 10%) !important;
     border-color: darken(@success-color, 10%) !important;
     background: #ffffff;
@@ -51,12 +44,7 @@
   .create-article {
     color: @success-color;
     border: 1px solid @success-color;
-    &:where(.css-dev-only-do-not-override-240cud).ant-btn-variant-outlined:not(:disabled):not(
-        .ant-btn-disabled
-      ):hover,
-    :where(.css-dev-only-do-not-override-240cud).ant-btn-variant-dashed:not(:disabled):not(
-        .ant-btn-disabled
-      ):hover {
+    &:hover {
       color: darken(@success-color, 10%) !important;
       border-color: darken(@success-color, 10%) !important;
     }
@@ -64,12 +52,7 @@
 
   .btn-logout {
     padding: 20px 18px;
-    &:where(.css-dev-only-do-not-override-240cud).ant-btn-variant-outlined:not(:disabled):not(
-        .ant-btn-disabled
-      ):hover,
-    :where(.css-dev-only-do-not-override-240cud).ant-btn-variant-dashed:not(:disabled):not(
-        .ant-btn-disabled
-      ):hover {
+    &:hover {
       color: inherit;
       border-color: inherit;
     }
