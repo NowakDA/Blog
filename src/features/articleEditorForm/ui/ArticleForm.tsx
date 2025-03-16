@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@app/store';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Article } from '@entities/articles/model/ArticleTypes';
@@ -7,6 +7,7 @@ import {
   useCreateAnArticleMutation,
   useUpdateAnArticleMutation,
 } from '@entities/articles/api/articlesApi';
+import { setCurrentPage } from '@widgets/Pagination/model/paginationSlice';
 import { Form, Input, Button, Tag } from 'antd';
 import './ArticleForm.less';
 
@@ -15,6 +16,7 @@ const ArticleForm = () => {
   const [tagInput, setTagInput] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const isEditing = location.pathname.startsWith('/edit-article');
 
   const currentArticle = useSelector(
@@ -56,10 +58,12 @@ const ArticleForm = () => {
     try {
       if (isEditing && currentArticle) {
         await updateArticle({ ...values, tagList: tags, slug: currentArticle.slug }).unwrap();
+        navigate(`/article/${currentArticle.slug}`);
       } else {
         await createArticle({ ...values, tagList: tags }).unwrap();
+        dispatch(setCurrentPage(1));
+        navigate('/');
       }
-      navigate('/');
     } catch (err) {
       console.error(isEditing ? 'Failed to edit article:' : 'Failed to create article:', err);
     }

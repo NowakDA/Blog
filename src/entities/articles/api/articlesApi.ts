@@ -33,7 +33,7 @@ export const articlesApi = api.injectEndpoints({
         method: 'PUT',
         body: { article: { title, description, body, tagList } },
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: ({ slug }) => [{ type: 'Article', id: slug }, 'Articles'],
     }),
     favoritAnArticle: builder.mutation({
       query: (slug) => ({

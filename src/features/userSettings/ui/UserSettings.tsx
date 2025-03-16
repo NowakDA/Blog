@@ -25,7 +25,7 @@ const UserSettings = () => {
         username: data.user.username || '',
         email: data.user.email || '',
         bio: data.user.bio || '',
-        Avatar: data.user.image || '',
+        image: data.user.image || '',
         password: '',
       }
     : {};
@@ -34,6 +34,7 @@ const UserSettings = () => {
     try {
       const response = await updateUser(values).unwrap();
       dispatch(setUser(response.user));
+      console.log('response.user: ', values);
       navigate('/');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -115,7 +116,7 @@ const UserSettings = () => {
           />
         </Form.Item>
         <Form.Item
-          name="Avatar"
+          name="image"
           label="Avatar (url)"
           rules={[
             { type: 'url', warningOnly: true },
