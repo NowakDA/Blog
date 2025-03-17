@@ -5,7 +5,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@entities/user/model/userSlice';
 import { useSignUpMutation } from '@features/auth/api/authApi';
-import { validateFormRegex } from '@shared/lib/regex';
+import { validatePassword, validateEmail, validateUsername } from '@shared/lib/regex';
 import { FieldError, FormValues } from '@features/auth/models/authTypes';
 
 import './SignUpForm.less';
@@ -54,8 +54,8 @@ const SignupForm: FC = () => {
             { required: true, message: 'Please enter your username' },
             { max: 20, min: 3, message: 'Username must be between 3 and 20 characters' },
             {
-              pattern: validateFormRegex,
-              message: 'Username must contain only lowercase latin letters and numbers',
+              pattern: validateUsername,
+              message: 'Username must contain only lowercase latin letters',
             },
           ]}
         >
@@ -69,8 +69,8 @@ const SignupForm: FC = () => {
             { required: true, message: 'Please enter your email' },
             { type: 'email', message: 'Enter a valid email' },
             {
-              pattern: validateFormRegex,
-              message: 'Email must contain only lowercase latin letters and numbers',
+              pattern: validateEmail,
+              message: 'Email must contain only lowercase latin letters',
             },
           ]}
         >
@@ -89,8 +89,8 @@ const SignupForm: FC = () => {
               message: 'Password must be between 6 and 40 characters',
             },
             {
-              pattern: validateFormRegex,
-              message: 'Password must contain only lowercase latin letters and numbers',
+              pattern: validatePassword,
+              message: 'Password must contain only lowercase latin letters',
             },
           ]}
         >
@@ -133,10 +133,17 @@ const SignupForm: FC = () => {
 
         {error && <div className="sign-up-error">⛔️ Signup failed</div>}
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={isLoading} block>
-            {isLoading ? 'Creating...' : 'Create'}
-          </Button>
+        <Form.Item shouldUpdate>
+          {({ getFieldValue }) => (
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={isLoading || !getFieldValue('agree')}
+              block
+            >
+              {isLoading ? 'Creating...' : 'Create'}
+            </Button>
+          )}
         </Form.Item>
 
         <p className="signin-text">

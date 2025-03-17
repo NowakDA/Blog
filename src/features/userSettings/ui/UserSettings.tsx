@@ -6,7 +6,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 import { setUser } from '@entities/user/model/userSlice';
 import { useUpdateUserMutation, useGetCurrentUserQuery } from '@entities/user/api/userApi';
-import { validateFormRegex } from '@shared/lib/regex';
+import { validatePassword, validateEmail, validateUsername } from '@shared/lib/regex';
 import { FieldError, FormValues } from '@features/auth/models/authTypes';
 import './UserSettings.less';
 import Loading from '@shared/ui/Loading/Loading';
@@ -71,8 +71,8 @@ const UserSettings = () => {
             { required: true, message: 'Please enter your username' },
             { max: 20, min: 3, message: 'Username must be between 3 and 20 characters' },
             {
-              pattern: validateFormRegex,
-              message: 'Username must contain only lowercase latin letters and numbers',
+              pattern: validateUsername,
+              message: 'Username must contain only lowercase latin letters',
             },
           ]}
         >
@@ -85,8 +85,8 @@ const UserSettings = () => {
             { required: true, message: 'Please enter your email' },
             { type: 'email', message: 'Invalid email format' },
             {
-              pattern: validateFormRegex,
-              message: 'Email must contain only lowercase latin letters and numbers',
+              pattern: validateEmail,
+              message: 'Email must contain only lowercase latin letters',
             },
           ]}
         >
@@ -105,8 +105,8 @@ const UserSettings = () => {
               message: 'Password must be between 6 and 40 characters',
             },
             {
-              pattern: validateFormRegex,
-              message: 'Password must contain only lowercase latin letters and numbers',
+              pattern: validatePassword,
+              message: 'Password must contain only latin letters and numbers',
             },
           ]}
         >

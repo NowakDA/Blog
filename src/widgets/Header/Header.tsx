@@ -15,7 +15,6 @@ const Header: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((state: RootState) => state.user);
-  console.log('user: ', user);
 
   return (
     <div className="header">
