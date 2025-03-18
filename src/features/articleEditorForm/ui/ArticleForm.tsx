@@ -81,7 +81,16 @@ const ArticleForm = () => {
       <Form.Item
         label="Title"
         name="title"
-        rules={[{ required: true, message: 'Please enter a title' }]}
+        rules={[
+          { required: true, message: 'Please enter a title' },
+          {
+            validator: (_, value) =>
+              value && value.trim()
+                ? Promise.resolve()
+                : Promise.reject(new Error('Title cannot be empty or contain only spaces')),
+          },
+          { max: 300, message: 'Title cannot be more than 300 characters' },
+        ]}
       >
         <Input placeholder="Title" />
       </Form.Item>
@@ -89,7 +98,18 @@ const ArticleForm = () => {
       <Form.Item
         label="Short description"
         name="description"
-        rules={[{ required: true, message: 'Please enter a short description' }]}
+        rules={[
+          { required: true, message: 'Please enter a short description' },
+          {
+            validator: (_, value) =>
+              value && value.trim()
+                ? Promise.resolve()
+                : Promise.reject(
+                    new Error('Short description cannot be empty or contain only spaces'),
+                  ),
+          },
+          { max: 1000, message: 'Description cannot be more than 1000 characters' },
+        ]}
       >
         <Input placeholder="Short description" />
       </Form.Item>
@@ -97,7 +117,16 @@ const ArticleForm = () => {
       <Form.Item
         label="Text"
         name="body"
-        rules={[{ required: true, message: 'Please enter the article text' }]}
+        rules={[
+          { required: true, message: 'Please enter the article text' },
+          {
+            validator: (_, value) =>
+              value && value.trim()
+                ? Promise.resolve()
+                : Promise.reject(new Error('Text cannot be empty or contain only spaces')),
+          },
+          { max: 4000, message: 'Text cannot be more than 4000 characters' },
+        ]}
       >
         <Input.TextArea rows={4} placeholder="Text" />
       </Form.Item>
