@@ -6,7 +6,7 @@ export const articlesApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query<ArticleResponse, { offset: number; limit: number }>({
       query: ({ offset = 0, limit = 5 }) => `/articles?limit=${limit}&offset=${offset}`,
-      providesTags: ['Articles'],
+      providesTags: () => ['Articles'],
     }),
     getArticle: builder.query({
       query: (slug) => `articles/${slug}`,
@@ -17,15 +17,15 @@ export const articlesApi = api.injectEndpoints({
         url: 'articles',
         method: 'POST',
         body: { article: { title, description, body, tagList } },
-        invalidatesTags: ['Articles'],
       }),
+      invalidatesTags: () => ['Articles'],
     }),
     deleteAnArticle: builder.mutation({
       query: (slug) => ({
         url: `articles/${slug}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: () => ['Articles'],
     }),
     updateAnArticle: builder.mutation({
       query: ({ title, description, body, tagList, slug }) => ({

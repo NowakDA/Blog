@@ -5,7 +5,6 @@ import { Article } from '@entities/articles/model/ArticleTypes';
 import {
   useCreateAnArticleMutation,
   useGetArticleQuery,
-  useGetArticlesQuery,
   useUpdateAnArticleMutation,
 } from '@entities/articles/api/articlesApi';
 import { setCurrentPage } from '@widgets/Pagination/model/paginationSlice';
@@ -44,7 +43,6 @@ const ArticleForm = () => {
 
   const [createArticle, { isLoading: createLoading }] = useCreateAnArticleMutation();
   const [updateArticle, { isLoading: updateLoading }] = useUpdateAnArticleMutation();
-  const { refetch } = useGetArticlesQuery({ offset: 0, limit: 5 });
 
   const handleAddTag = () => {
     if (tagInput && !tags.includes(tagInput)) {
@@ -79,7 +77,7 @@ const ArticleForm = () => {
         navigate(`/article/${currentArticle.article.slug}`);
       } else {
         const response = await createArticle({ ...values, tagList: tags }).unwrap();
-        await refetch();
+
         dispatch(setCurrentPage(1));
 
         navigate(`/article/${response.article.slug}`);
