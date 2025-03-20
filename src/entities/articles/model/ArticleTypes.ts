@@ -11,8 +11,6 @@ export interface Article {
     username: string;
     image: string;
   };
-  onClick: () => void;
-  onFavoriteClick: (slug: string, favorited: boolean) => void;
 }
 
 export interface ArticleResponse {

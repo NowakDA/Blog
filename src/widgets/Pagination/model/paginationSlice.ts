@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '@app/store';
 
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const savedPage = sessionStorage.getItem('currentPage');
 const initialPage = savedPage ? Number(savedPage) : 1;
 
@@ -27,5 +28,7 @@ const paginationSlice = createSlice({
   },
 });
 
+export const selectCurrentPage = (state: RootState) => state.pagination.currentPage;
+export const selectLimit = (state: RootState) => state.pagination.limit;
 export const { setCurrentPage, setLimit } = paginationSlice.actions;
 export default paginationSlice.reducer;

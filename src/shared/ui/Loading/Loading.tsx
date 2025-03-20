@@ -1,40 +1,7 @@
 import './Loading.less';
-
+//Просто было интересно как ты прокомментируешь того монстра 😂
 const Loading = () => {
-  return (
-    <div className="cssload-container">
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-      <div className="cssload-thing"></div>
-    </div>
-  );
+  return <div className="loader"></div>;
 };
 
 export default Loading;

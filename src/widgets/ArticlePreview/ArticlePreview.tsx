@@ -8,37 +8,47 @@ import { FC } from 'react';
 
 import { Button, Popconfirm } from 'antd';
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
 import heartEmpty from './assets/heart-empty.svg';
 import heartRed from './assets/red-heart.svg';
-import { RootState } from '@app/store';
-import { useDeleteAnArticleMutation } from '@entities/articles/api/articlesApi';
+
+import {
+  useDeleteAnArticleMutation,
+  useToggleFavoriteMutation,
+} from '@entities/articles/api/articlesApi';
 
 import './ArticlePreview.less';
+import { selectIsAuthenticated, selectUser } from '@entities/user/model/userSlice';
 
 const ArticlePreview: FC<Article> = ({
   title,
   slug,
+
   description,
   tagList,
   createdAt,
   favorited,
   favoritesCount,
   author,
-  onClick,
-  onFavoriteClick,
 }) => {
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.user);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
   const [deleteArticle] = useDeleteAnArticleMutation();
+  const [toggleFavorite] = useToggleFavoriteMutation();
   const navigate = useNavigate();
+  const location = useLocation();
   const isAuthor = isAuthenticated && author.username === user?.username;
 
-  const handleFavoriteClick = (event: React.MouseEvent) => {
+  const handleFavoriteClick = async (event: React.MouseEvent) => {
     event.stopPropagation();
-    onFavoriteClick(slug, favorited);
+    try {
+      await toggleFavorite({ slug, favorited }).unwrap();
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+    }
   };
 
   const confirmDelete = async () => {
@@ -50,9 +60,14 @@ const ArticlePreview: FC<Article> = ({
       console.error('Error deleting article:', error);
     }
   };
+  const handleClick = () => {
+    if (location.pathname !== `/article/${slug}`) {
+      navigate(`/article/${slug}`);
+    }
+  };
 
   return (
-    <div className="article-preview" onClick={onClick}>
+    <div className="article-preview" onClick={handleClick}>
       <div className="article-content column">
         <a href="#" className="article-title">
           {title}
@@ -94,11 +109,10 @@ const ArticlePreview: FC<Article> = ({
                 Delete
               </Button>
             </Popconfirm>
-            <Link to={'/edit-article'}>
-              <Button className="edit-btn" ghost>
-                Edit
-              </Button>{' '}
-            </Link>
+
+            <Button className="edit-btn" ghost onClick={() => navigate(`/article/${slug}/edit`)}>
+              Edit
+            </Button>
           </div>
         )}
       </div>

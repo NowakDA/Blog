@@ -1,3 +1,5 @@
+import { RootState } from '@app/store';
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import Cookies from 'js-cookie';
@@ -29,12 +31,16 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
 
       Cookies.set('token', token, { expires: 1, secure: true });
+      Cookies.set('username', username, { expires: 1 });
+      Cookies.set('image', image, { expires: 1 });
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       Cookies.remove('token');
+      Cookies.remove('username');
+      Cookies.remove('image');
     },
     updateUser: (state, action) => {
       state.user = { ...state.user, ...action.payload };
@@ -50,6 +56,8 @@ const userSlice = createSlice({
     });
   },
 });
-
+export const selectUser = (state: RootState) => state.user.user;
+export const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+export const selectToken = (state: RootState) => state.user.token;
 export const { setUser, logout, updateUser } = userSlice.actions;
 export default userSlice.reducer;

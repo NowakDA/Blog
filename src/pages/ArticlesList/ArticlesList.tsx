@@ -10,45 +10,22 @@ import { Switch } from 'antd';
 
 import { useSelector } from 'react-redux';
 
-import { useNavigate } from 'react-router-dom';
-import {} from 'antd';
-
-import { RootState } from '../../app/store';
-import {
-  useGetArticlesQuery,
-  useUnFavoritAnArticleMutation,
-  useFavoritAnArticleMutation,
-} from '@entities/articles/api/articlesApi';
+import { useGetArticlesQuery } from '@entities/articles/api/articlesApi';
 import ArticlePreview from '@widgets/ArticlePreview/ArticlePreview';
 import Loading from '@shared/ui/Loading/Loading';
 import './ArticlesList.less';
 import ErrorMessage from '@shared/ui/ErrorMassage/ErrorMessage';
+import { selectCurrentPage, selectLimit } from '@widgets/Pagination/model/paginationSlice';
 
 const ArticlesList: FC = () => {
-  const navigate = useNavigate();
-
-  const currentPage = useSelector((state: RootState) => state.pagination.currentPage);
-  const limit = useSelector((state: RootState) => state.pagination.limit);
+  const currentPage = useSelector(selectCurrentPage);
+  const limit = useSelector(selectLimit);
   const [showSensitive, setShowSensitive] = useState(false);
 
   const { data, error, isLoading } = useGetArticlesQuery({
     offset: (currentPage - 1) * limit,
     limit,
   });
-  const [favoritAnArticle] = useFavoritAnArticleMutation();
-  const [unFavoritAnArticle] = useUnFavoritAnArticleMutation();
-
-  const handleFavorite = async (slug: string, favorited: boolean) => {
-    try {
-      if (favorited) {
-        await unFavoritAnArticle(slug).unwrap();
-      } else {
-        await favoritAnArticle(slug).unwrap();
-      }
-    } catch (error) {
-      console.error('Error updating favorite status:', error);
-    }
-  };
 
   if (isLoading) return <Loading />;
   if (error) return <ErrorMessage />;
@@ -94,8 +71,6 @@ const ArticlesList: FC = () => {
             favorited={article.favorited}
             favoritesCount={article.favoritesCount}
             author={article.author}
-            onClick={() => navigate(`/article/${article.slug}`)}
-            onFavoriteClick={(slug, favorited) => handleFavorite(slug, favorited)}
           />
         ))}
       </div>

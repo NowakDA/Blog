@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@app/store';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Article } from '@entities/articles/model/ArticleTypes';
 import {
   useCreateAnArticleMutation,
+  useGetArticleQuery,
+  useGetArticlesQuery,
   useUpdateAnArticleMutation,
 } from '@entities/articles/api/articlesApi';
 import { setCurrentPage } from '@widgets/Pagination/model/paginationSlice';
@@ -14,23 +15,36 @@ import './ArticleForm.less';
 const ArticleForm = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>('');
+  const [form] = Form.useForm();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const isEditing = location.pathname.startsWith('/edit-article');
+  const { slug } = useParams();
+  const isEditing = location.pathname.endsWith('/edit');
 
-  const currentArticle = useSelector(
-    (state: RootState) => state.currentArticle.currentArticle,
-  ) as Article | null;
+  const { data: currentArticle } = useGetArticleQuery(slug, { skip: !isEditing });
 
   useEffect(() => {
     if (isEditing && currentArticle) {
-      setTags(currentArticle.tagList || []);
+      setTags(currentArticle.article.tagList || []);
+      form.setFieldsValue({
+        title: currentArticle.article.title,
+        description: currentArticle.article.description,
+        body: currentArticle.article.body,
+      });
     }
-  }, [currentArticle, isEditing]);
+  }, [currentArticle, isEditing, form]);
+
+  useEffect(() => {
+    if (!isEditing) {
+      form.resetFields();
+      setTags([]);
+    }
+  }, [isEditing, form]);
 
   const [createArticle, { isLoading: createLoading }] = useCreateAnArticleMutation();
   const [updateArticle, { isLoading: updateLoading }] = useUpdateAnArticleMutation();
+  const { refetch } = useGetArticlesQuery({ offset: 0, limit: 5 });
 
   const handleAddTag = () => {
     if (tagInput && !tags.includes(tagInput)) {
@@ -57,12 +71,18 @@ const ArticleForm = () => {
   ) => {
     try {
       if (isEditing && currentArticle) {
-        await updateArticle({ ...values, tagList: tags, slug: currentArticle.slug }).unwrap();
-        navigate(`/article/${currentArticle.slug}`);
+        await updateArticle({
+          ...values,
+          tagList: tags,
+          slug: currentArticle.article.slug,
+        }).unwrap();
+        navigate(`/article/${currentArticle.article.slug}`);
       } else {
-        await createArticle({ ...values, tagList: tags }).unwrap();
+        const response = await createArticle({ ...values, tagList: tags }).unwrap();
+        await refetch();
         dispatch(setCurrentPage(1));
-        navigate('/');
+
+        navigate(`/article/${response.article.slug}`);
       }
     } catch (err) {
       console.error(isEditing ? 'Failed to edit article:' : 'Failed to create article:', err);
@@ -70,12 +90,7 @@ const ArticleForm = () => {
   };
 
   return (
-    <Form
-      className="create-form"
-      layout="vertical"
-      onFinish={handleSubmitArticle}
-      initialValues={isEditing && currentArticle ? currentArticle : undefined}
-    >
+    <Form form={form} className="create-form" layout="vertical" onFinish={handleSubmitArticle}>
       <h2>{isEditing ? 'Edit article' : 'Create new article'}</h2>
 
       <Form.Item

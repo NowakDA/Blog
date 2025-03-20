@@ -5,16 +5,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { UserOutlined } from '@ant-design/icons';
-import { logout } from '@entities/user/model/userSlice';
-
-import { RootState } from '../../app/store';
+import { logout, selectIsAuthenticated, selectUser } from '@entities/user/model/userSlice';
 
 import './Header.less';
 
 const Header: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.user);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
 
   return (
     <div className="header">

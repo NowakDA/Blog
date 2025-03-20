@@ -17,8 +17,8 @@ export const articlesApi = api.injectEndpoints({
         url: 'articles',
         method: 'POST',
         body: { article: { title, description, body, tagList } },
+        invalidatesTags: ['Articles'],
       }),
-      invalidatesTags: ['Articles'],
     }),
     deleteAnArticle: builder.mutation({
       query: (slug) => ({
@@ -35,19 +35,12 @@ export const articlesApi = api.injectEndpoints({
       }),
       invalidatesTags: ({ slug }) => [{ type: 'Article', id: slug }, 'Articles'],
     }),
-    favoritAnArticle: builder.mutation({
-      query: (slug) => ({
+    toggleFavorite: builder.mutation({
+      query: ({ slug, favorited }) => ({
         url: `articles/${slug}/favorite`,
-        method: 'POST',
+        method: favorited ? 'DELETE' : 'POST',
       }),
-      invalidatesTags: (slug) => ['Articles', { type: 'Article', id: slug }],
-    }),
-    unFavoritAnArticle: builder.mutation({
-      query: (slug) => ({
-        url: `articles/${slug}/favorite`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: (slug) => ['Articles', { type: 'Article', id: slug }],
+      invalidatesTags: ({ slug }) => [{ type: 'Article', id: slug }, 'Articles'],
     }),
   }),
 });
@@ -58,6 +51,5 @@ export const {
   useCreateAnArticleMutation,
   useUpdateAnArticleMutation,
   useDeleteAnArticleMutation,
-  useFavoritAnArticleMutation,
-  useUnFavoritAnArticleMutation,
+  useToggleFavoriteMutation,
 } = articlesApi;

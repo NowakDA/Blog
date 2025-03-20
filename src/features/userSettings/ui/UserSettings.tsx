@@ -34,7 +34,6 @@ const UserSettings = () => {
     try {
       const response = await updateUser(values).unwrap();
       dispatch(setUser(response.user));
-      console.log('response.user: ', values);
       navigate('/');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

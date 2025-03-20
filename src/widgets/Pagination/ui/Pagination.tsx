@@ -4,9 +4,7 @@ import { Pagination } from 'antd';
 import { PaginationProps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '@app/store';
-
-import { setCurrentPage, setLimit } from '../model/paginationSlice';
+import { selectCurrentPage, selectLimit, setCurrentPage, setLimit } from '../model/paginationSlice';
 
 import './Pagination.less';
 
@@ -16,8 +14,8 @@ interface PagePaginationProps {
 
 const PagePagination: FC<PagePaginationProps> = ({ totalArticles }) => {
   const dispatch = useDispatch();
-  const currentPage = useSelector((state: RootState) => state.pagination.currentPage);
-  const limit = useSelector((state: RootState) => state.pagination.limit);
+  const currentPage = useSelector(selectCurrentPage);
+  const limit = useSelector(selectLimit);
 
   const handlePagination: PaginationProps['onChange'] = (page) => {
     dispatch(setCurrentPage(page));
